@@ -44,14 +44,10 @@ class ConfReader{
 
     protected function write_conf($key , $value ){
         $arr = std_to_array($this->db_conf);
-        dump($arr);
-        foreach($arr as $k=>$v){
-            if($v instanceof \stdClass){
-            }
-        }
-
-
-        return 0;
+//        dump($arr); dump($key); dump($value);
+        array_recursive_update($arr , $key , $value);
+//        dump($arr);
+        return $arr;
     }
 
 
