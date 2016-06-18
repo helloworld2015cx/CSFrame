@@ -15,6 +15,6 @@
 
 use sys\corePackage\ConfLoader\ConfLoader;
 //ConfLoader::init()->test();
-$re = ConfLoader::init()->conf('db.mysql.host','192.168.1.71');
+$re = ConfLoader::init()->conf('db.mysql.host.host1','192.168.1.71');
 dump($re);
 // ConfLoader Package loaded successfully !

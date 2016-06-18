@@ -120,6 +120,45 @@ if(!function_exists('std_to_array')){
 }
 
 
+if(!function_exists('array_recursion')){
+    function array_recursive_update(&$arr , array $keys , $value){
+        if(!is_array($arr)){
+            throw new Exception(__FUNCTION__." first parameter needs an array !" , 10003);
+        }
+
+        if(is_array($keys)){
+            $keysize = sizeof($keys);
+            $tmp = '';
+            for($i=0 ; $i<$keysize-1 ; $i++){
+                if($i==0){
+                    $tmp = $arr[$keys[0]];
+                }else{
+                    $tmp = $tmp[$keys[$i]];
+                }
+            }
+
+            for($j=$keysize-1 ; $j>0 ; $j--){
+                if($j == $keysize-1){
+                    $tmp[$keys[$j]] = $value;
+                }else{
+                    $tmp[$keys[$j]] = $tmp;
+                }
+            }
+            $arr[$keys[0]] = $tmp;
+        }
+        return ;
+    }
+}
+
+if(!function_exists('array_to_std')){
+    function array_to_std(&$array , &$std){
+        foreach($array as $k=>$v){
+
+        }
+    }
+}
+
+
 
 
 
