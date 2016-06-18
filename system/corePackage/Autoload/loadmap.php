@@ -5,6 +5,7 @@
  return array(
      'Exception',
      'ConfLoader',
+     'Model',
  );
 
 

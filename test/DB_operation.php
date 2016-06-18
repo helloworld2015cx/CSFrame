@@ -42,8 +42,6 @@ class DBModule{
         return $this;
     }
 
-
-
     /*
      * 设置操作为搜索 ， 参数为要搜索的字段
      * */
@@ -51,7 +49,6 @@ class DBModule{
         $this->field = $filed;
         return $this;
     }
-
 
     public function where_delimiter(){
         if($this->where){
@@ -77,7 +74,6 @@ class DBModule{
         $this->where = $this->where.$this->where_delimiter().$field_name.' like '.$format;
     }
 
-
     public function orWhere(Closure $function , DBModule $db){
         $this->or_where = $function($db);
         return $this;
@@ -97,7 +93,6 @@ class DBModule{
     }
 
     public function having($fields){}
-
 
     public function orderBy($fields){
         if(is_array($fields)){
@@ -136,13 +131,9 @@ class DBModule{
     public function right_join(){}
 
     public function select(){}
-
     public function update(){}
-
     public function delete(){}
-
     public function insert(){}
-
 
 
 }

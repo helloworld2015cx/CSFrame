@@ -9,6 +9,8 @@ class ConfLoader{
     }
 
     public function conf($keys , $value=''){
+//        $num = func_num_args();
+//        dump('here should be  one  '.$num);
         if($value===''){
             return $this->read_conf($keys);
         }else{

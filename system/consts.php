@@ -10,6 +10,7 @@ defined( 'EXTENSION_PATH' )?:define('EXTENSION_PATH',ROOT.'system/extension/');
 defined( 'CONF_PATH' )?:define('CONF_PATH',ROOT.'system/config/');
 defined( 'CONF_EXT' )?: define('CONF_EXT','.config.json');
 
+defined('STR_NULL')?:define('STR_NULL','');
 
 defined( 'LOAD_PACKAGE' )?:define('LOAD_PACKAGE' , 1);
 defined( 'LOAD_EXTENSION' )?:define('LOAD_EXTENSION' , 2);
