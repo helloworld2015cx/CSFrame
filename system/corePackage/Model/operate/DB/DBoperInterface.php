@@ -13,24 +13,21 @@ Interface DBoperInterface
 {
 
 
+    public function table($table);
+
     public function select();
 //    public function update();
 //    public function insert();
 //    public function delete();
 
-
 //    where | group by | having | order by | limit
-    public function where($field , $compare , $value='');
-//    public function whereIn();
-//    public function whereLike();
-    public function orWhere($closure
-        //, DBoperate $orWhere
-        );
-//    public function groupBy();
+    public function where($field , $compare , $value='',$connector = ' and ');
+    public function orWhere($closure , $compare = '=' , $value = '');
+    public function groupBy($field);
 //    public function having();
-//    public function orderBy();
-//    public function limit();
-//
+    public function orderBy($field);
+    public function limit($start , $num='');
+
 ////    inner join | left join | right join
 //    public function innerJoin();
 //    public function leftJoin();

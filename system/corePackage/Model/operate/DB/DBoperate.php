@@ -8,17 +8,30 @@
 
 namespace sys\corePackage\Model\operate\DB;
 
+use sys\corePackage\Exception\Exception;
 use sys\corePackage\Model\operate\DB\DBoperInterface;
 
 class DBoperate implements DBoperInterface{
 
     private $where = '';
+    private $groupByField = '';
+    private $orderByField = '';
+    private $limit;
+    private $table;
+
+
 
     public static function init(){
         return new self;
     }
 
-    public function where($field , $compare , $value='' , $connect = ' and '){
+    public function table($table){
+        $this->table = ' from '.$table.' ';
+        return $this;
+    }
+
+
+    public function where($field , $compare='=' , $value='' , $connect = ' and '){
 
         if($field instanceof \Closure){
            $condition = $field()->form_where_conditions();
@@ -37,12 +50,13 @@ class DBoperate implements DBoperInterface{
         }else{
             $value = '"'.$value.'"';
         }
+        $compare = ' '.$compare.' ';
         $this->where = $this->where.$this->get_where_delimiter($connect).$field.$compare.$value;
         return $this;
     }
 
 
-    public function orWhere($function , $compare ='=' , $value=''){
+    public function orWhere($function , $compare = '=' , $value=''){
         if($function instanceof \Closure){
             $condition = $function()->form_orwhere_conditions();
             $this->where.=$condition;
@@ -68,16 +82,42 @@ class DBoperate implements DBoperInterface{
     }
 
     public function test(){
-        $obj = new self;
-        $obj1 = new self;
-        $this->where('field0','123')->orWhere(function()use($obj){
-            $condition = $obj->where('field1','>',100,'')->where('field2','cheng')->orWhere('id','888');
-            return $condition;
-        })->where('xiang','xiang')->where(function()use($obj1){
-            return $obj1->where('andwhere','=','andwhere','')->orWhere('ccc','sss');
-        });
+//        try{
+//            $obj = new self;
+//            $obj1 = new self;
+//            $this->where('field0','like','%cheng%')->orWhere(function()use($obj){
+//            $condition = $obj->where('field1','>',100,'')->where('field2','cheng')->orWhere('id','888');
+//                return $condition;
+//            })->where('xiang','xiang')->where(function()use($obj1){
+//                return $obj1->where('andwhere','=','andwhere','')->orWhere('ccc','sss');
+//            });
+//            dump($this->where);
+//        }catch (Exception $e){
+//            $e->error_trace();
+//        }
+    }
 
-        dump($this->where);
+    public function groupBy($field){
+        $this->groupByField = ' group by '.$field;
+        return $this;
+    }
+
+    public function orderBy($field){
+        if(is_array($field)){
+            $field = join(',' , $field);
+        }
+        $this->orderByField = ' order by '.$field;
+        return $this;
+    }
+
+    public function limit($start , $num=''){
+        func_num_args()==1 ? : $start.=',' ;
+        $this->limit = ' limit '.$start.$num;
+        return $this;
+    }
+
+    protected function formSql(){
+        return $this->table.$this->where.$this->groupByField.$this->orderByField.$this->limit;
     }
 
 
@@ -87,19 +127,15 @@ class DBoperate implements DBoperInterface{
         }elseif($connect==STR_NULL){
             return '';
         }else{
-            if($this->where){
-                return ' and ';
-            }else{
-                return ' where ';
-            }
+            $this->where ? $connect = ' and ': $connect = ' where ';
+            return $connect;
         }
-
     }
 
 
 
-    public function select(){
-
+    public function select($field = '*'){
+        return 'select '.$field.' '.$this->formSql();
     }
 
 }
