@@ -27,7 +27,7 @@ class Exception extends SysException{
         exit(1);
     }
 
-    public function __callStatic($name, $arguments)
+    public static function __callStatic($name, $arguments)
     {
         return call_user_func_array(array(new self(''),$name),$arguments);
     }

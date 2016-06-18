@@ -33,7 +33,7 @@ class Autoload{
         echo "Hello ,".__FILE__."<br>";
     }
 
-    public function __callStatic($name, $arguments)
+    public static function __callStatic($name, $arguments)
     {
         return call_user_func_array(array(new self , $name) , $arguments);
     }
