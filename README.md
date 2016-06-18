@@ -1,2 +1,2 @@
 # CSFrame
-A php framework create for play !
+A php framework create just for fine!
