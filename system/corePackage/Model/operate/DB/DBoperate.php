@@ -23,7 +23,7 @@ class DBoperate implements DBoperInterface{
     private $limit;
     private $table;
     private $alias='';
-
+    private $join = '';
 //    use Connector;
 
     public static function init(){
@@ -182,24 +182,11 @@ class DBoperate implements DBoperInterface{
 
     protected function formSql(){
 
-//        $table_or_alias = $this->alias ? $this->alias : $this->table;
-
-//        $orderByField =is_array($this->orderByField) ? join(',',$this->orderByField) : $this->orderByField;
-
         $orderBy = $this->orderByField ? ' order by '.$this->orderByField :'';
-
-//        if(is_array($orderByField)){
-//            foreach($orderByField as $v){
-//                $orderBy .= $table_or_alias.'.'.$v.',';
-//            }
-//            $orderBy = rtrim($orderBy,',');
-//        }else{
-//
-//        }
 
         $groupBy = $this->groupByField ? ' group by '.$this->groupByField : '';
 
-        return 'from'.$this->table.$this->where.$groupBy.$orderBy.$this->limit;
+        return 'from'.$this->table.$this->join.$this->where.$groupBy.$orderBy.$this->limit;
     }
 
 
@@ -267,20 +254,60 @@ class DBoperate implements DBoperInterface{
     public function insert(array $data){
         $re = is_array($data) ? $this->form_insert_data($data) : error_message(new Exception(' insert method needs array as parameter',20001));
         $sql = 'insert into'.' '.$this->table.$re;
-        return $this->get_result($sql);
+        $this->get_result($sql);
+        return mysqli_insert_id($this->db);
+    }
+
+
+    public function innerJoin($table , $column1 , $column2){
+        $this->join($table , $column1 , $column2);
+        return $this;
+    }
+
+    public function leftJoin($table , $column1 , $column2){
+        $this->join($table , $column1 , $column2 , 'left');
+        return $this;
+    }
+
+    public function rightJoin($table , $column1 , $column2){
+        $this->join($table , $column1 , $column2 , 'right');
+        return $this;
+    }
+
+    private function join($table , $column1 , $column2 , $direction='inner'){
+        $this->join .= " $direction join ".$table.' on '.$column1.'='.$column2.' ';
     }
 
     private function form_insert_data(array $data){
+
         $keys =array();
         $values = array();
-        foreach($data as $key=>$value){
-            $keys[] = $key;
-            $values[] = $value;
-        }
-        $key_str = ' ('.join(',' , $keys).')';
-        $value_str = '("'.join('","' , $values).'")';
 
-        return $key_str.'values'.$value_str;
+        $multi = false;
+
+        foreach($data as $key=>$value){
+            if(is_array($value)){
+                $key1 = array();
+                $value1 = array();
+
+                foreach($value as $k=>$v){
+                    $key1[] = $k;
+                    $value1[] = $v;
+                }
+
+                $keys = $key1;
+                $values[] = '("'.join('","' , $value1).'")';
+                $multi = true;
+            }else{
+                $keys[] = $key;
+                $values[] = $value;
+            }
+        }
+
+        $key_str = ' ('.join(',' , $keys).')';
+        $value_str = $multi ? join(',' , $values) :'("'.join('","' , $values).'")';
+
+        return $key_str.' values '.$value_str;
     }
 
     public function get_sql_result($sql){

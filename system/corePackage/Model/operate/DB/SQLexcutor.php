@@ -23,7 +23,8 @@ trait SQLexcutor
     public function execute($sql){
         $result = mysqli_query($this->db , $sql);
         if(!$result){
-            throw new Exception('SQL execute error .','20000');
+//            dump();
+            throw new Exception(mysqli_error($this->db),'20000');
         }
         $this->result = $result;
     }

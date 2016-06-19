@@ -11,8 +11,6 @@ namespace sys\corePackage\Model\operate\DB;
 
 Interface DBoperInterface
 {
-
-
     public function table($table);
     public function alias($table_alias);
 
@@ -35,9 +33,9 @@ Interface DBoperInterface
     public function get_sql_result($sql);
 
 ////    inner join | left join | right join
-//    public function innerJoin();
-//    public function leftJoin();
-//    public function rightJoin();
+    public function innerJoin($table , $column1 , $column2 );
+    public function leftJoin($table , $column1 , $column2 );
+    public function rightJoin($table , $column1 , $column2 );
 
 
 }

@@ -1,7 +1,7 @@
 <?php
 
-defined('DEBUG_WIDTH')?:define('DEBUG_WIDTH','80%');
-defined('DEBUG_FONT_SIZE')?:define('DEBUG_FONT_SIZE', 12);
+defined('DEBUG_WIDTH')?:define('DEBUG_WIDTH','95%');
+defined('DEBUG_FONT_SIZE')?:define('DEBUG_FONT_SIZE', 13);
 defined('DEBUG_POSITION')?:define('DEBUG_POSITION','left');
 
 
