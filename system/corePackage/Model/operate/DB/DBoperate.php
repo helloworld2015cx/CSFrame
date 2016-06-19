@@ -241,13 +241,46 @@ class DBoperate implements DBoperInterface{
         return $this->get_result($sql);
     }
 
+    /*
+     * delete from table where conditions
+     * */
     public function delete($id=''){
 
+        if(!$id)
+            $sql = 'delete from'.' '.$this->table.' '.$this->where;
+        else
+            if(!is_array($id)) {
+                $sql = 'delete from' . ' ' . $this->table . ' where ' . $this->get_primary_key() . '="' . $id . '"';
+            }else {
+                $ids = join('","', $id);
+                $sql = 'delete from' . ' ' . $this->table . ' where ' . $this->get_primary_key() . ' in ("' . $ids . '")';
+            }
+        $this->get_result($sql);
+        return mysqli_affected_rows($this->db);
     }
 
 
+    /*
+     * insert into table_name (column1 , column2 ...) values ('value1' , 'value2' ...);
+     *
+     * */
     public function insert(array $data){
-        
+        $re = is_array($data) ? $this->form_insert_data($data) : error_message(new Exception(' insert method needs array as parameter',20001));
+        $sql = 'insert into'.' '.$this->table.$re;
+        return $this->get_result($sql);
+    }
+
+    private function form_insert_data(array $data){
+        $keys =array();
+        $values = array();
+        foreach($data as $key=>$value){
+            $keys[] = $key;
+            $values[] = $value;
+        }
+        $key_str = ' ('.join(',' , $keys).')';
+        $value_str = '("'.join('","' , $values).'")';
+
+        return $key_str.'values'.$value_str;
     }
 
     public function get_sql_result($sql){

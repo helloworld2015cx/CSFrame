@@ -159,6 +159,15 @@ if(!function_exists('array_to_std')){
 }
 
 
+if(!function_exists('sql_filter')){
+    function sql_filter($sql){
+        $sql = htmlspecialchars($sql);
+        $sql = stripos($sql , '--')?error_message(new \Exception('SQL str not safe',10003)):$sql;
+        return $sql;
+    }
+}
+
+
 
 
 
