@@ -15,6 +15,9 @@ class DBModule{
     private $group = array();
     private $order = array();
     private $limit;
+    private $join;
+    private $update_data;
+    private $insert_data;
 
     /*
      * 创建单例数据库连接；
@@ -50,7 +53,7 @@ class DBModule{
         return $this;
     }
 
-    public function where_delimiter(){
+    private function where_delimiter(){
         if($this->where){
             $delimiter = ' and ';
         }else{
@@ -74,66 +77,165 @@ class DBModule{
         $this->where = $this->where.$this->where_delimiter().$field_name.' like '.$format;
     }
 
-    public function orWhere(Closure $function , DBModule $db){
-        $this->or_where = $function($db);
+    public function orWhere(Closure $function){
+        $this->or_where = $function();
         return $this;
     }
 
-    protected function subWhere(){
-        return $this->where;
-    }
+//    protected function subWhere(){
+//        return $this->where;
+//    }
 
     public function groupBy($fields){
-        if(is_array($fields)){
-            $this->group = $fields;
-        }else{
-            $this->group[] = $fields;
-        }
+        $this->group = $fields;
         return $this;
     }
 
-    public function having($fields){}
-
-    public function orderBy($fields){
-        if(is_array($fields)){
-            $this->order = $fields;
+//    public function having($fields){}
+    /*
+    * 单个字段排序直接 $field 为字段名，$sort 为排序顺序
+    * 多字段排序使用关联数组的方式，键名为字段名，键值为排序顺序
+    * */
+    public function orderBy($field,$sort='asc'){
+        if(is_array($field)){
+            $str = '';
+            foreach($field as $key=>$value){
+                $str .= $key.' '.$value.',';
+            }
+            $field = trim($str,',');
         }else{
-            $this->order[] = $fields;
+            $field = $field.' '.$sort;
         }
+        $this->order = $field;
         return $this;
     }
 
-    public function limit($num){
-        $this->limit = $num;
+    public function limit($start , $num=''){
+        $paranum = func_num_args();
+        $paranum == 1 ? $this->limit = $num : $this->limit = $start.','.$num;
+
         return $this;
     }
 
     private function formatSQL($operation=DB_OPER_SELECT){
+        $where = $this->where ? ' '.$this->where : '';
         switch($operation){
             case DB_OPER_SELECT:
-                ;
+                $field = is_array($this->field) ? join(',',$this->field) : $this->field;
+                $order = $this->order ? ' order by '.$this->order : '';
+                $group = $this->group ? ' group by '.$this->group :'';
+                $limit = $this->limit ? ' limit '.$this->limit : '';
+                return 'select '.$field.' from '.$this->table.$this->join.$where.$group.$order.$limit;
                 break;
             case DB_OPER_UPDATE:
-                ;
+                return 'update '.$this->table.' '.$this->update_data($this->update_data);
                 break;
             case DB_OPER_INSERT:
-                ;
+                return 'insert into'.' '.$this->table.' '.$this->form_insert_data($this->insert_data);
                 break;
             case DB_OPER_DELETE:
-                ;
+                return 'delete from'.' '.$this->table.$where;
                 break;
-
         }
+        return null;
     }
 
-    public function innerJoin(){}
-    public function left_join(){}
-    public function right_join(){}
+    private function join($table , $column1 , $column2 , $direction = 'inner'){
+        $this->join .= " $direction join ".$table.' on '.$column1.'='.$column2.' ';
+//        return $this;
+    }
+    public function innerJoin($table , $column1 , $column2){
+        $this->join($table , $column1 , $column2 , 'inner');
+        return $this;
+    }
+    public function leftJoin($table , $column1 , $column2){
+        $this->join($table , $column1 , $column2 , 'left');
+        return $this;
+    }
+    public function rightJoin($table , $column1 , $column2){
+        $this->join($table , $column1 , $column2 , 'right');
+        return $this;
+    }
 
-    public function select(){}
-    public function update(){}
-    public function delete(){}
-    public function insert(){}
+    public function select(){
+        $sql = $this->formatSQL();
+        return $this->getResult($sql);
+    }
+
+    public function update(array $data){
+        $this->update_data = $data;
+        $sql = $this->formatSQL(DB_OPER_UPDATE);
+        return $this->getResult($sql);
+    }
+
+    public function delete(){
+        $sql = $this->formatSQL(DB_OPER_DELETE);
+        return $this->getResult($sql);
+    }
+
+    public function insert(array $data){
+        $this->insert_data = $data;
+        $sql = $this->formatSQL(DB_OPER_INSERT);
+        return $this->getResult($sql);
+    }
+
+    private function update_data(array $data){
+
+        $str = ' set ';
+        if(is_array($data)){
+            foreach($data as $key=>$value){
+                $str .= $key.'="'.$value.'",';
+            }
+            $str = rtrim($str,',');
+        }else{
+            throw new Exception('Update parameter $data must be an array !');
+        }
+
+        return $str.$this->where;
+    }
+
+    private function form_insert_data(array $data){
+
+        $keys =array();
+        $values = array();
+        $multi = false;
+
+        foreach($data as $key=>$value){
+            if(is_array($value)){
+                $key1 = array();
+                $value1 = array();
+
+                foreach($value as $k=>$v){
+                    $key1[] = $k;
+                    $value1[] = $v;
+                }
+
+                $keys = $key1;
+                $values[] = '("'.join('","' , $value1).'")';
+                $multi = true;
+            }else{
+                $keys[] = $key;
+                $values[] = $value;
+            }
+        }
+
+        $key_str = ' ('.join(',' , $keys).')';
+        $value_str = $multi ? join(',' , $values) :'("'.join('","' , $values).'")';
+        return $key_str.' values '.$value_str;
+    }
+
+    private function getResult($sql){
+        try {
+            $mysql = $this->dbc->execute($sql);
+            if(!$mysql){
+                throw new Exception(mysql_error($this->dbc));
+            }
+            return $this->dbc->getResultArray($mysql);
+        }catch (Exception $e){
+            echo '<h1>'.$e->getMessage().'</h1>';
+        }
+        return mysql_affected_rows($this->dbc);
+    }
 
 
 }
