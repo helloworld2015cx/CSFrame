@@ -9,8 +9,7 @@
 namespace sys\corePackage\Model\operate\DB;
 
 use sys\corePackage\Exception\Exception;
-//use sys\corePackage\Model\operate\DB\DBoperInterface;
-//use sys\corePackage\Model\operate\DB\DBconnector;
+use sys\corePackage\ConfLoader\ConfLoader;
 
 class DBoperate implements DBoperInterface{
 
@@ -27,7 +26,9 @@ class DBoperate implements DBoperInterface{
 //    use Connector;
 
     public static function init(){
-        return new self('127.0.0.1','root','root','mysql');
+        $db_conf = ConfLoader::init()->conf('db.mysql');
+//        dump($db_conf);
+        return new self($db_conf->host,$db_conf->username,$db_conf->password,$db_conf->db , $db_conf->port);
     }
 
     public function table($table){
@@ -40,7 +41,6 @@ class DBoperate implements DBoperInterface{
         $this->table = $this->table.' as '.$table_alias;
         return $this;
     }
-
 
     /*
      * 传递参数则通过主键查询 ， 没有参数则只拿第一个记录
@@ -106,7 +106,7 @@ class DBoperate implements DBoperInterface{
         return $this;
     }
 
-
+//0be53a265fb576667029d1f3c587da41b491da11
     public function orWhere($function , $compare = '=' , $value=''){
         if($function instanceof \Closure){
             $condition = $function()->form_orwhere_conditions();
@@ -132,24 +132,8 @@ class DBoperate implements DBoperInterface{
         return ' and ('.$this->where.')';
     }
 
-    public function test(){
-//        try{
-//            $obj = new self;
-//            $obj1 = new self;
-//            $this->where('field0','like','%cheng%')->orWhere(function()use($obj){
-//            $condition = $obj->where('field1','>',100,'')->where('field2','cheng')->orWhere('id','888');
-//                return $condition;
-//            })->where('xiang','xiang')->where(function()use($obj1){
-//                return $obj1->where('andwhere','=','andwhere','')->orWhere('ccc','sss');
-//            });
-//            dump($this->where);
-//        }catch (Exception $e){
-//            $e->error_trace();
-//        }
-    }
 
     public function groupBy($field){
-//        $this->groupByField = ' group by '.$field;
         $this->groupByField = $field;
         return $this;
     }
@@ -213,6 +197,11 @@ class DBoperate implements DBoperInterface{
     }
 
 
+
+
+    /*
+     * 单条记录更新操作
+     * */
     public function update(array $data){
         $str = ' set ';
         $table = $this->alias?$this->alias:$this->table;
@@ -230,6 +219,9 @@ class DBoperate implements DBoperInterface{
 
     /*
      * delete from table where conditions
+     * 不传递参数时 根据筛选条件进行删除
+     * 传入数值参数，作为主键值进行删除
+     * 传入数组参数，数组内的每一个值作为一个主键值进行删除
      * */
     public function delete($id=''){
 
@@ -249,7 +241,8 @@ class DBoperate implements DBoperInterface{
 
     /*
      * insert into table_name (column1 , column2 ...) values ('value1' , 'value2' ...);
-     *
+     * 一次插入一条记录传递一维数组，
+     * 一次插入多条记录传递二维数组
      * */
     public function insert(array $data){
         $re = is_array($data) ? $this->form_insert_data($data) : error_message(new Exception(' insert method needs array as parameter',20001));
@@ -331,7 +324,11 @@ class DBoperate implements DBoperInterface{
         }
         @mysqli_free_result($this->result);
 
-        return $result ? $result : true;
+        return $result ? $result : mysqli_affected_rows($this->db);
+    }
+
+    public function __destruct(){
+        unset($this->db);
     }
 
 }

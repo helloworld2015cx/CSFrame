@@ -23,11 +23,12 @@ trait DBconnector{
         $this->password = $password;
         $this->database = $database;
         $this->port = $port;
-        $db = mysqli_connect($host , $username , $password , $database , $port);
-        if($db){
+        try{
+            $db = mysqli_connect($host , $username , $password , $database , $port);
+            if(!$db) throw new Exception(mysqli_connect_error());
             $this->db = $db;
-        }else{
-            dump(' [ ERROR MESSAGE ] # Failed to connect to MySQL ： '.mysqli_connect_error().' # error code: '.mysqli_connect_errno());
+        }catch (Exception $e){
+            error_message($e->error_trace());
         }
     }
 
@@ -67,7 +68,7 @@ trait DBconnector{
             if($db){
                 $this->db = $db;
             }else{
-                throw new Exception('Database connect Failed.'.mysqli_connect_error());
+                throw new Exception(mysqli_connect_error());
             }
         }catch (Exception $e){
             $e->error_trace();

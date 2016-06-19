@@ -11,14 +11,9 @@ namespace sys\corePackage\Model\operate\DB;
 class DBdriver extends DBoperate{
 
 
+    public function M($table){
 
-
-//    public function select(){
-//        $sql = parent::select();
-//        dump($sql);
-//        $this->execute($sql);
-//        return $this->get_result();
-//    }
+    }
 
 
 

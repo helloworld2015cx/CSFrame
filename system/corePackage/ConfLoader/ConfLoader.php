@@ -18,15 +18,13 @@ class ConfLoader{
         }
     }
 
-    public function read_conf($key){
+    protected function read_conf($key){
         $keys = $this->resolve_key($key);
-
         $file = array_shift($keys);
-
         return ConfReader::init($file)->conf($keys);
     }
 
-    public function write_conf($keys , $value){
+    protected function write_conf($keys , $value){
         $keys = $this->resolve_key($keys);
         $file = array_shift($keys);
 
@@ -38,11 +36,8 @@ class ConfLoader{
         return $arr;
     }
 
-    public function test(){
-        ConfReader::init('db')->test();
-        dump(__METHOD__);
-    }
-
-
-
+//    public function test(){
+//        ConfReader::init('db')->test();
+//        dump(__METHOD__);
+//    }
 }
