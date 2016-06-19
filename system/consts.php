@@ -4,7 +4,6 @@ defined('DEBUG_WIDTH')?:define('DEBUG_WIDTH','95%');
 defined('DEBUG_FONT_SIZE')?:define('DEBUG_FONT_SIZE', 13);
 defined('DEBUG_POSITION')?:define('DEBUG_POSITION','left');
 
-
 defined('PACKAGE_PATH')?:define('PACKAGE_PATH',ROOT.'system/corePackage/');
 defined( 'EXTENSION_PATH' )?:define('EXTENSION_PATH',ROOT.'system/extension/');
 defined( 'CONF_PATH' )?:define('CONF_PATH',ROOT.'system/config/');

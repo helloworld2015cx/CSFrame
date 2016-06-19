@@ -1,7 +1,9 @@
 {
 
-  "run_mode"      :     "debug"
+  "run_mode"      :     "debug",
 
+  "log_mode"      :     "daily",
 
+  "cache"         :     "true"
 
 }

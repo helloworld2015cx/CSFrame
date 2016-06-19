@@ -13,7 +13,6 @@ use sys\corePackage\ConfLoader\ConfLoader;
 
 class DBoperate implements DBoperInterface{
 
-//    use DBconnector;
     use SQLexcutor;
 
     private $where = '';
@@ -23,7 +22,6 @@ class DBoperate implements DBoperInterface{
     private $table;
     private $alias='';
     private $join = '';
-//    use Connector;
 
     public static function init(){
         $db_conf = ConfLoader::init()->conf('db.mysql');
@@ -69,7 +67,6 @@ class DBoperate implements DBoperInterface{
         return $this->find();
     }
 
-
     private function get_primary_key(){
         $sql = 'desc '.$this->table;
         $result = $this->get_result($sql);
@@ -80,7 +77,6 @@ class DBoperate implements DBoperInterface{
         }
         return null;
     }
-
 
     public function where($field , $compare='=' , $value='' , $connect = ' and '){
 
@@ -106,7 +102,6 @@ class DBoperate implements DBoperInterface{
         return $this;
     }
 
-//0be53a265fb576667029d1f3c587da41b491da11
     public function orWhere($function , $compare = '=' , $value=''){
         if($function instanceof \Closure){
             $condition = $function()->form_orwhere_conditions();
@@ -132,12 +127,10 @@ class DBoperate implements DBoperInterface{
         return ' and ('.$this->where.')';
     }
 
-
     public function groupBy($field){
         $this->groupByField = $field;
         return $this;
     }
-
 
     /*
      * 单个字段排序直接 $field 为字段名，$sort 为排序顺序
@@ -185,8 +178,6 @@ class DBoperate implements DBoperInterface{
         }
     }
 
-
-
     public function select($field = '*'){
 
         if(is_array($field)){
@@ -195,9 +186,6 @@ class DBoperate implements DBoperInterface{
         $sql = 'select '.$field.' '.$this->formSql();
         return $this->get_result($sql);
     }
-
-
-
 
     /*
      * 单条记录更新操作
@@ -238,7 +226,6 @@ class DBoperate implements DBoperInterface{
         return mysqli_affected_rows($this->db);
     }
 
-
     /*
      * insert into table_name (column1 , column2 ...) values ('value1' , 'value2' ...);
      * 一次插入一条记录传递一维数组，
@@ -251,9 +238,8 @@ class DBoperate implements DBoperInterface{
         return mysqli_insert_id($this->db);
     }
 
-
     public function innerJoin($table , $column1 , $column2){
-        $this->join($table , $column1 , $column2);
+        $this->join($table , $column1 , $column2 , 'inner');
         return $this;
     }
 
@@ -275,7 +261,6 @@ class DBoperate implements DBoperInterface{
 
         $keys =array();
         $values = array();
-
         $multi = false;
 
         foreach($data as $key=>$value){

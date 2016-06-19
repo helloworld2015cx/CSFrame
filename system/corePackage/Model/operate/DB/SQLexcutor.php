@@ -15,7 +15,6 @@ trait SQLexcutor
 {
     use DBconnector;
 
-
     protected $result;
 
 
@@ -23,7 +22,6 @@ trait SQLexcutor
     public function execute($sql){
         $result = mysqli_query($this->db , $sql);
         if(!$result){
-//            dump();
             throw new Exception(mysqli_error($this->db),'20000');
         }
         $this->result = $result;

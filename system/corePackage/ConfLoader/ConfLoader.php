@@ -36,8 +36,4 @@ class ConfLoader{
         return $arr;
     }
 
-//    public function test(){
-//        ConfReader::init('db')->test();
-//        dump(__METHOD__);
-//    }
 }
