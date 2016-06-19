@@ -5,59 +5,75 @@
  * Date: /2016/6/18/
  * Time: 19:42
  */
-
 namespace sys\corePackage\Model\operate\DB;
-
-
 use sys\corePackage\Exception\Exception;
 
-abstract class DBconnector{
+trait DBconnector{
 
-    protected $dbc;
+    protected $db;
     protected $database;
     protected $host;
     protected $port;
     protected $username;
     protected $password;
 
-
-    private function __construct(){
-        $this->dbc = mysqli_connect();
+    public function __construct($host , $username , $password , $database , $port=3306){
+        $this->host = $host;
+        $this->username = $username;
+        $this->password = $password;
+        $this->database = $database;
+        $this->port = $port;
+        $db = mysqli_connect($host , $username , $password , $database , $port);
+        if($db){
+            $this->db = $db;
+        }else{
+            dump(' [ ERROR MESSAGE ] # Failed to connect to MySQL ： '.mysqli_connect_error().' # error code: '.mysqli_connect_errno());
+        }
     }
 
     /*
      * set the default database to connect !
      * @database is the default database set to connect ;
      * */
-    abstract function setDB($database);
+    public function setDB($database){
+        $this->database = $database;
+        return $this;
+    }
 
-    /*
-     * set the default database host to connect !
-     * @$host is the host name to set !
-     * */
-    abstract function setHost($host);
+    public function setHost($host){
+        $this->host = $host;
+        return $this;
+    }
 
-    /*
-     * set $port
-     * */
-    abstract function setPort($port);
+    public function setUser($username){
+        $this->username = $username;
+        return $this;
+    }
 
-    abstract function setUser($username);
+    public function setPort($port){
+        $this->port = $port;
+        return $this;
+    }
 
-    abstract function setPass($password);
+    public function setPass($password){
+        $this->password = $password;
+        return $this;
+    }
 
     public function connect(){
         try{
-            $dbc = mysqli_connect($this->host,$this->username,$this->password,$this->port);
-            if($dbc){
-                $this->dbc = $dbc;
+            unset($this->db);
+            $db = mysqli_connect($this->host , $this->username , $this->password , $this->database , $this->port);
+            if($db){
+                $this->db = $db;
             }else{
-                throw new Exception('Database connected failed !');
+                throw new Exception('Database connect Failed.'.mysqli_connect_error());
             }
         }catch (Exception $e){
             $e->error_trace();
         }
-
+        return $this;
     }
+
 
 }
