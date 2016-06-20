@@ -34,19 +34,26 @@ use sys\corePackage\Model\operate\DB\DBdriver;
 //];
 //$result = DBdriver::init()->setDB('note')->connect()->table('users')->insert($data);
 
+//error_get_last();
+//die('break here !');
+require 'a.php';
+//error_reporting();
+//include "Hello.php";
+//load('./test.php');
+
+
 //$result = DBdriver::init()->setDB('note')->connect()->table('users')->where('id' , 8)->delete();
 
 //$obj = DBdriver::init();
-//$result = DBdriver::init()->table('class')->where('class.id','<','10')->orWhere(function()use($obj){
+//$result = DBdriver::init()->table('class')->where('class.id','<','9')->orWhere(function()use($obj){
 //        return $obj->where('classname','=','设计模式','');
-//    })->orderBy('class.id','desc')->innerJoin('users','class.id','users.id')->select();
-//
+//    })
+//    ->orderBy('class.id','desc')
+//    ->innerJoin('users','class.id','users.id')
+//    ->select();
 //dump($result);
-
 //dump(strstr('where id=1 limit 10','limit',true));
-
 $obj = json_decode(file_get_contents(CONF_PATH.'sys'.CONF_EXT));
-
 dump($obj);
 
 

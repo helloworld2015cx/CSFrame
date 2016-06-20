@@ -48,20 +48,20 @@ if(!function_exists('root')){
 
 if(!function_exists('load')){
 
-    $test_file = function($file){
+    function test_file($file){
         try{
             if(!is_file($file)){
                 throw new Exception('Not a file ! can not load !' , '10002');
             }
-        }catch (Exception $e){
+        }catch(Exception $e){
             error_message($e);
         }
 
-    };
+    }
 
     function load($classname , $type=LOAD_){
 
-        global $test_file;
+//        global $test_file;
 
         if($type == LOAD_PACKAGE){
             $path = PACKAGE_PATH;
@@ -72,22 +72,23 @@ if(!function_exists('load')){
         }
 
         if(is_array($classname)){
-
             foreach($classname as $class){
                 $package = $path.$class.'/';
                 $required = $package.'autoload.php';
                 $requirements = require_once($required);
+
                 foreach($requirements as $require){
-                    $test_file($package.$require);
-                    require_once($package.$require);
+
+                    test_file( $package.$require );
+                    require_once( $package.$require );
                 }
 
                 $enterfile = $package.$class.'.php';
-                $test_file($enterfile);
+                test_file($enterfile);
                 require_once(trim($enterfile));
             }
         }else{
-            $test_file($classname);
+            test_file($classname);
             require_once($classname);
         }
     }
@@ -108,21 +109,21 @@ if(!function_exists('error_message')){
 
 if(!function_exists('std_to_array')){
     function std_to_array(\stdClass $std){
-        $arr = get_object_vars($std);
-        foreach($arr as $k=>$v){
+        $error_typer = get_object_vars($std);
+        foreach($error_typer as $k=>$v){
             if($v instanceof \stdClass){
                 $value = std_to_array($v);
-                $arr[$k] = $value;
+                $error_typer[$k] = $value;
             }
         }
-        return $arr;
+        return $error_typer;
     }
 }
 
 
 if(!function_exists('array_recursion')){
-    function array_recursive_update(&$arr , array $keys , $value){
-        if(!is_array($arr)){
+    function array_recursive_update(&$error_typer , array $keys , $value){
+        if(!is_array($error_typer)){
             throw new Exception(__FUNCTION__." first parameter needs an array !" , 10003);
         }
 
@@ -131,7 +132,7 @@ if(!function_exists('array_recursion')){
             $tmp = '';
             for($i=0 ; $i<$keysize-1 ; $i++){
                 if($i==0){
-                    $tmp = $arr[$keys[0]];
+                    $tmp = $error_typer[$keys[0]];
                 }else{
                     $tmp = $tmp[$keys[$i]];
                 }
@@ -144,15 +145,15 @@ if(!function_exists('array_recursion')){
                     $tmp[$keys[$j]] = $tmp;
                 }
             }
-            $arr[$keys[0]] = $tmp;
+            $error_typer[$keys[0]] = $tmp;
         }
         return ;
     }
 }
 
 if(!function_exists('array_to_std')){
-    function array_to_std(&$array , &$std){
-        foreach($array as $k=>$v){
+    function array_to_std(&$error_typeray , &$std){
+        foreach($error_typeray as $k=>$v){
 
         }
     }
@@ -167,6 +168,30 @@ if(!function_exists('sql_filter')){
     }
 }
 
+if(!function_exists('__error__')){
+    function __error__(){
+        $error_type = array(
+            E_ERROR => 'Error',
+            E_WARNING => 'Warning',
+            E_PARSE =>'Parse',
+            E_NOTICE => 'Notice'
+        );
+        register_shutdown_function(function() use ($error_type){
+            $ers=error_get_last();
+            if($ers['type'!=8 && $ers['type']]){
+                $err_msg=$error_type[$ers['type']].$ers['type'].': '.' '.$ers['message'].' => '.$ers['file'].' line'.$ers['line'].' : '.date('Y-m-d H:i:s')."\n";
+                dump($err_msg);
+            }
+        });
+
+        set_error_handler(function($current_error_type , $error_message , $error_position , $error_line) use ($error_type){
+            if($current_error_type!=8 && $current_error_type){
+                $err_msg='[ '.date('Y-m-d H:i:s').' ] '.$error_type[$current_error_type].' : '.$error_message."\n[ position ] ".$error_position.' line:'.$error_line.' '."\n";
+                dump($err_msg);
+            }
+        },E_ALL ^ E_NOTICE);
+    }
+}
 
 
 
