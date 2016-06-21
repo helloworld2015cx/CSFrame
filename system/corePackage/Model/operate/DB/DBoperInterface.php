@@ -36,4 +36,6 @@ Interface DBoperInterface
     public function innerJoin($table , $column1 , $column2 );
     public function leftJoin($table , $column1 , $column2 );
     public function rightJoin($table , $column1 , $column2 );
+
+    public function get_last_sql();
 }

@@ -22,11 +22,16 @@ class DBoperate implements DBoperInterface{
     private $table;
     private $alias='';
     private $join = '';
+    private $last_sql = '';
+
+    private static $DBC;
 
     public static function init(){
-        $db_conf = ConfLoader::init()->conf('db.mysql');
-//        dump($db_conf);
-        return new self($db_conf->host,$db_conf->username,$db_conf->password,$db_conf->db , $db_conf->port);
+        if(!self::$DBC){
+            $db_conf = ConfLoader::init()->conf('db.mysql');
+            self::$DBC = new self($db_conf->host,$db_conf->username,$db_conf->password,$db_conf->db , $db_conf->port);
+        }
+        return self::$DBC;
     }
 
     public function table($table){
@@ -295,6 +300,9 @@ class DBoperate implements DBoperInterface{
     }
 
     private function get_result($sql){
+
+        $this->last_sql = $sql;
+
         try{
             $this->execute($sql);
         }catch (Exception $e){
@@ -310,6 +318,11 @@ class DBoperate implements DBoperInterface{
         @mysqli_free_result($this->result);
 
         return $result ? $result : mysqli_affected_rows($this->db);
+    }
+
+    public function get_last_sql()
+    {
+        return $this->last_sql;
     }
 
     public function __destruct(){

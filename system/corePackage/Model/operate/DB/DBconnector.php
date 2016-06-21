@@ -17,7 +17,7 @@ trait DBconnector{
     protected $username;
     protected $password;
 
-    public function __construct($host , $username , $password , $database , $port=3306){
+    protected function __construct($host , $username , $password , $database , $port=3306){
         $this->host = $host;
         $this->username = $username;
         $this->password = $password;
