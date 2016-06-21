@@ -45,14 +45,13 @@
 //$sql = DBdriver::init()->get_last_sql();
 //dump($sql);
 //dump($result);
-use sys\corePackage\Log\operate\Writer;
-use sys\corePackage\Log\operate\Logger;
-
-//$writer = Writer::init();
-$logger = Logger::init(Writer::init());
-
-$logger->debug('Hello World ! This is a debug message !');
-
+//use sys\corePackage\Log\operate\Writer;
+//use sys\corePackage\Log\operate\Logger;
+use sys\corePackage\Log\Log;
+//$logger = Logger::init(Writer::init());
+//$logger->debug('Hello World ! This is a debug message !');
+Log::error('This is an error message !');
+Log::init()->message('Hello This is written throw the Log class !');
 
 //$result = DBdriver::init()->setDB('note')->connect()->table('users')->where('id' , 8)->delete();
 

@@ -45,6 +45,10 @@ class Logger implements LoggerInterface{
     }
 
     public function message($message){
+//        dump($message);
+        if(is_array($message)){
+            $message = $message[0];
+        }
         self::$writer->keep_msg($message , 'message');
     }
 
