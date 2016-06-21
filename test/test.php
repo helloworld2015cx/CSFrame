@@ -1,7 +1,7 @@
 <?php
-use sys\corePackage\ConfLoader\ConfLoader;
+//use sys\corePackage\ConfLoader\ConfLoader;
 //use sys\corePackage\Model\operate\DB\DBoperate;
-use sys\corePackage\Model\operate\DB\DBdriver;
+//use sys\corePackage\Model\operate\DB\DBdriver;
 //ConfLoader::init()->test();
 //$re = ConfLoader::init()->conf('db.mysql.host.host1');
 //dump($re);
@@ -41,12 +41,18 @@ use sys\corePackage\Model\operate\DB\DBdriver;
 //include "Hello.php";
 //load('./test.php');
 
-$result = DBdriver::init()->table('users')->where('age','>','20')->find(3);
-$sql = DBdriver::init()->get_last_sql();
+//$result = DBdriver::init()->table('users')->where('age','>','20')->find(3);
+//$sql = DBdriver::init()->get_last_sql();
+//dump($sql);
+//dump($result);
+use sys\corePackage\Log\operate\Writer;
+use sys\corePackage\Log\operate\Logger;
 
-dump($sql);
+//$writer = Writer::init();
+$logger = Logger::init(Writer::init());
 
-dump($result);
+$logger->debug('Hello World ! This is a debug message !');
+
 
 //$result = DBdriver::init()->setDB('note')->connect()->table('users')->where('id' , 8)->delete();
 

@@ -168,30 +168,30 @@ if(!function_exists('sql_filter')){
     }
 }
 
-if(!function_exists('__error__')){
-    function __error__(){
-        $error_type = array(
-            E_ERROR => 'Error',
-            E_WARNING => 'Warning',
-            E_PARSE =>'Parse',
-            E_NOTICE => 'Notice'
-        );
-        register_shutdown_function(function() use ($error_type){
-            $ers=error_get_last();
-            if($ers['type'!=8 && $ers['type']]){
-                $err_msg=$error_type[$ers['type']].$ers['type'].': '.' '.$ers['message'].' => '.$ers['file'].' line'.$ers['line'].' : '.date('Y-m-d H:i:s')."\n";
-                dump($err_msg);
-            }
-        });
-
-        set_error_handler(function($current_error_type , $error_message , $error_position , $error_line) use ($error_type){
-            if($current_error_type!=8 && $current_error_type){
-                $err_msg='[ '.date('Y-m-d H:i:s').' ] '.$error_type[$current_error_type].' : '.$error_message."\n[ position ] ".$error_position.' line:'.$error_line.' '."\n";
-                dump($err_msg);
-            }
-        },E_ALL ^ E_NOTICE);
-    }
-}
+//if(!function_exists('__error__')){
+//    function __error__(){
+//        $error_type = array(
+//            E_ERROR => 'Error',
+//            E_WARNING => 'Warning',
+//            E_PARSE =>'Parse',
+//            E_NOTICE => 'Notice'
+//        );
+//        register_shutdown_function(function() use ($error_type){
+//            $ers=error_get_last();
+//            if($ers['type'!=8 && $ers['type']]){
+//                $err_msg=$error_type[$ers['type']].$ers['type'].': '.' '.$ers['message'].' => '.$ers['file'].' line'.$ers['line'].' : '.date('Y-m-d H:i:s')."\n";
+//                dump($err_msg);
+//            }
+//        });
+//
+//        set_error_handler(function($current_error_type , $error_message , $error_position , $error_line) use ($error_type){
+//            if($current_error_type!=8 && $current_error_type){
+//                $err_msg='[ '.date('Y-m-d H:i:s').' ] '.$error_type[$current_error_type].' : '.$error_message."\n[ position ] ".$error_position.' line:'.$error_line.' '."\n";
+//                dump($err_msg);
+//            }
+//        },E_ALL ^ E_NOTICE);
+//    }
+//}
 
 
 

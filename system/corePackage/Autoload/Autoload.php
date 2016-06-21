@@ -10,14 +10,24 @@ const ERROR_TYPES = array(
 
 class Autoload{
 
+    private static $AT;
+
     public static function init(){
+        if(self::$AT){
+            return self::$AT;
+        }
         return new self;
     }
+
 
     private function __construct(){
 
     }
 
+    /**
+     * 添加根命名空间的路径（最后一级路径为准）
+     */
+    public static function add(){}
 
     public static function run(){
 
@@ -31,21 +41,52 @@ class Autoload{
 //        sem_acquire();
 //        msg_send();
         set_error_handler([__CLASS__ , 'error']);
-//
+
         set_exception_handler([__CLASS__ , 'exception']);
-//
+
         register_shutdown_function([__CLASS__ , 'shutdown']);
 
     }
 
 
     protected static function autoload($class_name){
+
         $name_piece = explode('\\',$class_name , 2);
-        $className = 'system/'.str_replace('\\' , '/' , $name_piece[1]);
-        require_once(ROOT.$className.'.php');
+
+        $pre_path = self::_find_root_dir_($name_piece[0]);
+
+        $full_path = $pre_path.str_replace('\\' , '/' , $name_piece[1]);
+
+        self::_load_file_($full_path);
+
     }
 
+    protected static function _find_root_dir_($head = 'sys'){
 
+        switch($head){
+            case 'sys':
+                return ROOT.'system/';
+                break;
+            case APP_NAME:
+                return APP_PATH.APP_NAME;
+                break;
+            default:
+                return '';
+                break;
+        }
+
+    }
+
+    protected static function _load_file_($path){
+
+        $filename = $path.'.php';
+
+        if(!is_file($filename)){
+            throw new Exception($filename.' is not a file ! # line : '.__LINE__);
+        }
+
+        require_once($filename);
+    }
 
 
     protected function load_declare_const(){

@@ -2,6 +2,7 @@
 namespace sys\corePackage\Exception;
 use sys\corePackage\Exception\operate\S_Exception;
 use Exception as SysException;
+
 class Exception extends SysException{
 
     public static function init($message,$code='10000'){
@@ -31,12 +32,6 @@ class Exception extends SysException{
     {
         return call_user_func_array(array(new self(''),$name),$arguments);
     }
-
-    public function test(){
-        dump(__FILE__);
-        S_Exception::init()->test();
-    }
-
 
 }
 
