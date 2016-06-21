@@ -36,11 +36,17 @@ use sys\corePackage\Model\operate\DB\DBdriver;
 
 //error_get_last();
 //die('break here !');
-require 'a.php';
+//require 'a.php';
 //error_reporting();
 //include "Hello.php";
 //load('./test.php');
 
+$result = DBdriver::init()->table('users')->where('age','>','20')->find(3);
+$sql = DBdriver::init()->get_last_sql();
+
+dump($sql);
+
+dump($result);
 
 //$result = DBdriver::init()->setDB('note')->connect()->table('users')->where('id' , 8)->delete();
 
@@ -53,7 +59,7 @@ require 'a.php';
 //    ->select();
 //dump($result);
 //dump(strstr('where id=1 limit 10','limit',true));
-$obj = json_decode(file_get_contents(CONF_PATH.'sys'.CONF_EXT));
-dump($obj);
+//$obj = json_decode(file_get_contents(CONF_PATH.'sys'.CONF_EXT));
+//dump($obj);
 
 
