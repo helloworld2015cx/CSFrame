@@ -12,7 +12,7 @@ if(!function_exists('dump')){
         $style = "<p style='margin:0;background-color:#000;color:#0f0;width: ".DEBUG_WIDTH.";margin:0 auto;
                   padding:10px;line-height:1.5em;border-radius: 2px;font-size:".$size.";font-family:Consolas;text-align:".$position."'>";
         echo "<pre style='margin:3px;white-space: pre-wrap;text-overflow: ellipsis;width: 100%;overflow:hidden'>";
-        echo $style.$co.$message.$co."</p>";
+        echo $style.$co.htmlspecialchars($message).$co."</p>";
         echo "</pre>";
     }
 }

@@ -29,7 +29,7 @@
  * @package   Smarty
  * @version   3.1.29
  */
-
+//namespace sys\corePackage\Template\Smarty3;
 /**
  * define shorthand directory separator constant
  */
