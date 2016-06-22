@@ -26,6 +26,7 @@ Interface DBoperInterface
     public function where($field , $compare , $value='',$connector = ' and ');
     public function orWhere($closure , $compare = '=' , $value = '');
     public function groupBy($field);
+    public function distinct($fields);
 //    public function having();
     public function orderBy($field,$sort='asc');
     public function limit($start , $num='');

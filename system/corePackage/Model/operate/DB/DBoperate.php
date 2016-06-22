@@ -23,6 +23,7 @@ class DBoperate implements DBoperInterface{
     private $alias='';
     private $join = '';
     private $last_sql = '';
+    private $distinctFields = '';
 
     private static $DBC;
 
@@ -72,6 +73,12 @@ class DBoperate implements DBoperInterface{
         return $this->find();
     }
 
+    public function distinct($fields)
+    {
+        $this->distinctFields = $fields;
+        return $this;
+    }
+
     private function get_primary_key(){
         $sql = 'desc '.$this->table;
         $result = $this->get_result($sql);
@@ -118,7 +125,6 @@ class DBoperate implements DBoperInterface{
                 $value = $compare;
                 $compare = '=';
             }
-
             $this->where($function,$compare,$value,$connect=' or ');
         }
         return $this;
@@ -185,9 +191,16 @@ class DBoperate implements DBoperInterface{
 
     public function select($field = '*'){
 
-        if(is_array($field)){
-            $field = join(',',$field);
+        if($this->distinctFields && is_array($this->distinctFields)){
+            $field = ' distinct '.join(',',$this->distinctFields);
+        }elseif($this->distinctFields){
+           $field = ' distinct '. $this->distinctFields;
+        }else{
+            if(is_array($field)){
+                $field = join(',',$field);
+            }
         }
+
         $sql = 'select '.$field.' '.$this->formSql();
         return $this->get_result($sql);
     }
