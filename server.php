@@ -9,10 +9,15 @@
 error_reporting(E_ALL);
 set_time_limit(0);
 
+
+
 $address = '0.0.0.0';
 $port = '8080';
 
+
+
 $server = socket_create( AF_INET , SOCK_STREAM , SOL_TCP );
+
 if(!$server)
 {
     echo 'socket_create() failed : '.socket_strerror(socket_last_error($server))."\n";
@@ -26,52 +31,52 @@ if(!$bind)
     die('socket bind failed in line '.__LINE__);
 }
 
-$listen = socket_listen($server , 5);
+$listen = socket_listen($server , 1);
 if(!$listen){
     echo 'socket_listen() failed : '.socket_strerror(socket_last_error($server))."\n";
     die('socket_listen() failed in line'.__LINE__);
 }
 
+
 echo "Server $address is create successfully and listening at $port ...\n";
-//socket_accept()
 
-while(true)
+
+
+for($i=0 ; $i < 3 ; $i++)
 {
-    $cli = socket_accept($server);
+    if(pcntl_fork() == 0) {
+        $cli = socket_accept($server);
 
-    if(!$cli)
-    {
-        echo socket_strerror(socket_last_error($server))."\n";
-    }
-
-    echo "Client connect success ..\n";
-
-    $msg = 'Server : Welcome to connect !'."\n";
-    socket_write($cli , $msg , strlen($msg));
-
-    while(true)
-    {
-        $cli_msg = socket_read($cli , 1024 );
-        $clmsg =trim(str_replace( "\n" , '' , $cli_msg ));
-        if($clmsg == 'exit' || $clmsg == 'q' || $clmsg == 'quit' || $clmsg == '')
-        {
-            break;
+        if (!$cli) {
+            echo socket_strerror(socket_last_error($server)) . "\n";
         }
 
-        echo "Received Message : ".$cli_msg;
-        if (false === socket_write($cli, $cli_msg, strlen($cli_msg)))
-        {
-            echo "socket_write() failed reason:" . socket_strerror(socket_last_error($server));
-        } else
-        {
-            echo "Message send success .\n";
+        echo "Client connect success ..\n";
+
+        $msg = 'Server : Welcome to connect !' . "\n";
+
+        socket_write($cli, $msg, strlen($msg));
+
+        while (true) {
+            $cli_msg = socket_read($cli, 1024);
+
+            $cl_msg = trim(str_replace("\n", '', $cli_msg));
+
+            if ($cl_msg == 'exit' || $cl_msg == 'q' || $cl_msg == 'quit' || $cl_msg == '') {
+                break;
+            }
+
+            echo "Received Message : " . $cli_msg;
+            if (false === socket_write($cli, $cli_msg, strlen($cli_msg))) {
+                echo "socket_write() failed reason:" . socket_strerror(socket_last_error($server));
+            } else {
+                echo "Message send success .\n";
+            }
         }
+
+        echo("One client end the connection ! \n");
+        socket_close($cli);
     }
-
-    echo("One client end the connection ! \n");
-
-    socket_close($cli);
-
 }
 
 
