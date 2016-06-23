@@ -41,19 +41,25 @@
 //include "Hello.php";
 //load('./test.php');
 
+dump('Hello World !');
+
+
+//phpinfo();
+
 //$result = DBdriver::init()->table('users')->where('age','>','20')->find(3);
 //$sql = DBdriver::init()->get_last_sql();
 //dump($sql);
 //dump($result);
 //use sys\corePackage\Log\operate\Writer;
 //use sys\corePackage\Log\operate\Logger;
-use sys\corePackage\Log\Log;
+//use sys\corePackage\Log\Log;
 //$logger = Logger::init(Writer::init());
 //$logger->debug('Hello World ! This is a debug message !');
-Log::error('This is an error message !');
-Log::init()->message('Hello This is written throw the Log class !');
+//Log::error('This is an error message !');
+//Log::init()->message('Hello This is written throw the Log class !');
 
 //$result = DBdriver::init()->setDB('note')->connect()->table('users')->where('id' , 8)->delete();
+
 
 //$obj = DBdriver::init();
 //$result = DBdriver::init()->table('class')->where('class.id','<','9')->orWhere(function()use($obj){
