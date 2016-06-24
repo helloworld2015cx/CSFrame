@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Administrator
+ * User: Column
  * Date: 2016/6/22
  * Time: 13:34
  */
@@ -9,12 +9,8 @@
 error_reporting(E_ALL);
 set_time_limit(0);
 
-
-
 $address = '0.0.0.0';
 $port = '8080';
-
-
 
 $server = socket_create( AF_INET , SOCK_STREAM , SOL_TCP );
 

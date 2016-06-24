@@ -41,6 +41,11 @@
 //include "Hello.php";
 //load('./test.php');
 
+dump('Hello World !');
+
+
+//phpinfo();
+
 //$result = DBdriver::init()->table('users')->where('age','>','20')->find(3);
 //$sql = DBdriver::init()->get_last_sql();
 //dump($sql);
@@ -54,6 +59,7 @@
 //Log::init()->message('Hello This is written throw the Log class !');
 
 //$result = DBdriver::init()->setDB('note')->connect()->table('users')->where('id' , 8)->delete();
+
 
 //$obj = DBdriver::init();
 //$result = DBdriver::init()->table('class')->where('class.id','<','9')->orWhere(function()use($obj){
