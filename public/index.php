@@ -14,4 +14,5 @@ require_once(ROOT.'system/autoloader.php');
 
 require_once(ROOT.'test/test.php');
 
-dump('Hello '.__FILE__);
+//dump('Hello '.__FILE__);
+//dump($_SERVER);

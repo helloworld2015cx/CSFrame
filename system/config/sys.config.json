@@ -4,6 +4,12 @@
 
   "log_mode"      :     "daily",
 
-  "cache"         :     "true"
+  "cache"         :     "true",
+
+  "default_access"  : {
+                          "module"      : "Home",
+                          "controller"  : "IndexController",
+                          "method"      : "index"
+                      }
 
 }

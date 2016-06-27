@@ -14,13 +14,11 @@ $server->on('connect' , function($server , $fd , $from_id)
     echo "connected !\n";
 });
 
-
 $server->on('receive' , function(swoole_server $server , $from_id , $data)
 {
     echo "Received : ".$data."\n";
     $server->send($from_id , "server :".$data);
 });
-
 
 $server->on('close' , function($server , $fd , $from_id)
 {
@@ -28,8 +26,4 @@ $server->on('close' , function($server , $fd , $from_id)
 });
 
 //$server->on('error' , function($server){});
-
-
 $server->start();
-
-

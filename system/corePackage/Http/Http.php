@@ -7,9 +7,37 @@
  */
 
 namespace sys\corePackage\Http;
-
+use sys\corePackage\Http\Request\Request;
+use sys\corePackage\Http\Response\Response;
 
 class Http
 {
+
+    protected $request;
+    protected $response;
+    protected static $http;
+
+    protected function __construct(Request $request , Response $response){
+
+        $this->request = $request;
+
+        $this->response = $response;
+
+    }
+
+    public static function init(){
+        if(!self::$http){
+            self::$http = new self( Request::init() , Response::init());
+        }
+        return self::$http;
+    }
+
+    public function getRequest(){
+        return $this->request;
+    }
+
+    public function getResponse(){
+        return $this->response;
+    }
 
 }

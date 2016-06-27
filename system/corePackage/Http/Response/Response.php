@@ -12,4 +12,8 @@ namespace sys\corePackage\Http\Response;
 class Response
 {
 
+    public static function init(){
+        return new self;
+    }
+
 }

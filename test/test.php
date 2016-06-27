@@ -83,4 +83,5 @@ dump('Hello World !');
 echo $content;
 
 //pathinfo('');
-
+$pathArr = \sys\corePackage\Http\Http::init()->getRequest()->getAccessTo();
+dump($pathArr);
