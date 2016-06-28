@@ -51,6 +51,8 @@ class Autoload{
 
     protected static function autoload($class_name){
 
+//        dump($class_name);
+
         $name_piece = explode('\\',$class_name , 2);
 
         $pre_path = self::_find_root_dir_($name_piece[0]);
@@ -68,7 +70,7 @@ class Autoload{
                 return ROOT.'system/';
                 break;
             case APP_NAME:
-                return APP_PATH.APP_NAME;
+                return APP_PATH;
                 break;
             default:
                 return '';
@@ -125,9 +127,10 @@ class Autoload{
     }
 
     private static function exception(){
-        dump('error_get_last() in exception method : ');dump(error_get_last());
-        dump('error_reporting() in exception method : ');dump(error_reporting());
-        dump('This is exception method !');
+//        dump('error_get_last() in exception method : ');dump(error_get_last());
+//        dump('error_reporting() in exception method : ');dump(error_reporting());
+//        dump('This is exception method !');
+        dump('Exception occurred !');
     }
 
 //    private static function

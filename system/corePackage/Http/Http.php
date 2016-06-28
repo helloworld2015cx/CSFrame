@@ -32,12 +32,30 @@ class Http
         return self::$http;
     }
 
-    public function getRequest(){
+    private function getRequest(){
         return $this->request;
     }
 
-    public function getResponse(){
+    private function getResponse(){
         return $this->response;
+    }
+
+    private function requestNameSpace(){
+        $pathInfoArr = $this->getRequest()->getAccessTo();
+        return $this->getResponse()->getRequestNameSpace($pathInfoArr);
+    }
+
+    public function getAccessControllerObject(){
+        $controller = $this->requestNameSpace();
+        $obj = new $controller;
+        $method = $this->getRequest()->getAccessMethod();
+        ob_start();
+        $Re = $obj->$method();
+        $outPut = ob_get_clean();
+//        ob_end_clean();
+        dump($Re);
+        dump($outPut);
+
     }
 
 }

@@ -16,4 +16,10 @@ class Response
         return new self;
     }
 
+    public function getRequestNameSpace(array $MCM){
+        dump($MCM);
+        $str = '\\app\\'.$MCM['module'].'\\Controller\\'.$MCM['controller'];
+        return $str;
+    }
+
 }

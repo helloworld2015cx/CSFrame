@@ -83,5 +83,9 @@ dump('Hello World !');
 echo $content;
 
 //pathinfo('');
-$pathArr = \sys\corePackage\Http\Http::init()->getRequest()->getAccessTo();
-dump($pathArr);
+//$pathArr = \sys\corePackage\Http\Http::init()->getRequest()->getAccessTo();
+//dump($pathArr);
+//$result = \sys\corePackage\Http\Http::init()->requestNameSpace();
+//dump($result);
+\sys\corePackage\Http\Http::init()->getAccessControllerObject();
+//dump($_SERVER);
