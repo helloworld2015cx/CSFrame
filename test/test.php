@@ -41,7 +41,7 @@
 //include "Hello.php";
 //load('./test.php');
 
-dump('Hello World !');
+//dump('Hello World !');
 
 
 //phpinfo();
@@ -74,13 +74,13 @@ dump('Hello World !');
 //dump($obj);
 
 
-$path = $_SERVER['DOCUMENT_ROOT'].ltrim($_SERVER['SCRIPT_NAME'],'/');
+//$path = $_SERVER['DOCUMENT_ROOT'].ltrim($_SERVER['SCRIPT_NAME'],'/');
 //dump($path);
-ob_start();
-include_once($path);
-$content = ob_get_clean();
-dump('Hello World !');
-echo $content;
+//ob_start();
+//include_once($path);
+//$content = ob_get_clean();
+//dump('Hello World !');
+//echo $content;
 
 //pathinfo('');
 //$pathArr = \sys\corePackage\Http\Http::init()->getRequest()->getAccessTo();
@@ -89,3 +89,4 @@ echo $content;
 //dump($result);
 \sys\corePackage\Http\Http::init()->getAccessControllerObject();
 //dump($_SERVER);
+\sys\corePackage\Template\Template::init()->asset('' ,'');

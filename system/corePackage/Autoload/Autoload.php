@@ -11,6 +11,9 @@ const ERROR_TYPES = array(
 class Autoload{
 
     private static $AT;
+    private static $smarty;
+//    const Smarty = '';
+
 
     public static function init(){
         if(self::$AT){
@@ -24,6 +27,10 @@ class Autoload{
 
     }
 
+    public function getSmarty(){
+        return self::$smarty;
+    }
+
     /**
      * 添加根命名空间的路径（最后一级路径为准）
      */
@@ -31,11 +38,15 @@ class Autoload{
 
     public static function run(){
 
-        ini_set('display_errors','off');
+        self::init()->load_declare_const();
+//        ini_set('display_errors','off');
+        require_once(PACKAGE_PATH.'Template/Smarty3/Smarty.php');
+
+        self::$smarty = new Smarty();
+
+//        defined('SMARTY') ? : define('SMARTY' , serialize(self::$smarty));
 
         spl_autoload_register([ __CLASS__ , 'autoload'] );
-
-        self::init()->load_declare_const();
 
         require_once(ROOT.'system/function/functions.php');
 //        sem_acquire();
@@ -126,11 +137,13 @@ class Autoload{
         }
     }
 
-    private static function exception(){
+    private static function exception(Exception $exception ){
 //        dump('error_get_last() in exception method : ');dump(error_get_last());
 //        dump('error_reporting() in exception method : ');dump(error_reporting());
-//        dump('This is exception method !');
-        dump('Exception occurred !');
+        dump($exception->getMessage() , 25 , 'center');
+        dump($exception->getFile()." # In line ".$exception->getLine());
+        dump($exception->getTraceAsString());
+
     }
 
 //    private static function
