@@ -1,0 +1,50 @@
+
+
+*{
+    margin:0;
+    padding:0;
+    border:none;
+
+}
+
+.outer_content{
+    margin:10px auto;
+    width:80%;
+    min-height:500px;
+    background-color:#999;
+    padding:10px 5px;
+    border-radius: 4px;
+    box-shadow: 0 0 20px #111;
+    border-top:1px solid #eee;
+    border-left:1px solid #ccc;
+    border-right:1px solid #555;
+}
+
+.welcome_header{
+    font-size:40px;
+    font-family: "Consolas", "Lucida Console", monospace;
+    margin-top:25px;
+    margin-left:20px;
+    margin-bottom: 10px;
+
+}
+
+.welcome_logon{
+    font-size:75px;
+    font-weight:900;
+}
+
+.welcome_sub_message{
+    font-size: 20px;
+    margin-left:65px;
+    margin-top:10px;
+}
+
+.welcome_tips{
+    font-size:18px;
+    display: block;
+    margin-top:25px;
+    font-family: Consolas, "Courier New", monospace;
+}
+
+

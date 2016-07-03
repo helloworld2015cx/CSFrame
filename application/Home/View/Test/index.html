@@ -6,5 +6,25 @@
 </head>
 <body>
     <h1>{{$key[0]}} ++ {{$key[1]}} ++ {{$key[2]}}</h1>
+
+
+    {{foreach key=key1 item=value from=$key }}
+        <h1>{{$key1}} ==> {{$value}}</h1>
+    {{/foreach}}
+
+    {{if $colorful}}
+        <h1>It is colorful !</h1>
+    {{else}}
+        <h1>No color .</h1>
+    {{/if}}
+
+    <!--{{foreach item=value key=key from=$smarty.server}}-->
+        <!--<h2>{{$key}} => {{$value}}</h2>-->
+    <!--{{/foreach}}-->
+
+    <div style='font-size:20px;'>{{$obj->test()}}</div>
+
+    <!--<h2>{{$name}}</h2>-->
+
 </body>
 </html>
