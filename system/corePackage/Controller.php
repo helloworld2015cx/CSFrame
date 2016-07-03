@@ -21,9 +21,15 @@ class Controller
     private function _init_(Template $template)
     {
         $controller = Http::init()->getRequest()->getAccessController();
+//        dump($controller);
+
         $module = Http::init()->getRequest()->getAccessModule();
 
-        $truename = rtrim($controller , 'Controller');
+//        $truename = rtrim($controller , 'Controller');
+
+        $truename = substr($controller , 0 , -10);
+
+//        dump($truename);
 
         $template->setTemplateDir(ROOT.'application/'.$module.'/View/'.$truename.'/');
         $template->setCompileDir(ROOT.'application/Runtime/'.$module.'/');

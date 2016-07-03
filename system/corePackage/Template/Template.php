@@ -28,8 +28,7 @@ class Template{
         $this->smarty->assign($key,$value);
     }
 
-    public function display($template=null){
-
+    public function display($template){
         $this->smarty->display($template);
     }
 

@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 3.1.29, created on 2016-07-03 04:49:16
+/* Smarty version 3.1.29, created on 2016-07-03 05:23:44
   from "C:\Users\Administrator\Desktop\CSFrame\CSFrame\application\Home\View\Index\index.tpl" */
 
 if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl, array (
   'has_nocache_code' => false,
   'version' => '3.1.29',
-  'unifunc' => 'content_57787d2c849413_28236861',
+  'unifunc' => 'content_57788540ece6c1_30821761',
   'file_dependency' => 
   array (
     'ea8a1c8d2cd478de3a5ce8a276bc65a4fa6f1963' => 
@@ -19,7 +19,7 @@ if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl,
   array (
   ),
 ),false)) {
-function content_57787d2c849413_28236861 ($_smarty_tpl) {
+function content_57788540ece6c1_30821761 ($_smarty_tpl) {
 ?>
 <!doctype html>
 <html lang="en">
