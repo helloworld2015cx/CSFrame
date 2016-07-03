@@ -29,9 +29,7 @@ class Template{
     }
 
     public function display($template=null){
-//        if(!$template){
-//            $method = __METHOD__;
-//        }
+
         $this->smarty->display($template);
     }
 
@@ -56,6 +54,14 @@ class Template{
         $this->smarty->cache_lifetime = $time;
         $this->smarty->caching = true;
         return $this;
+    }
+
+    public function getSmartyObj(){
+        return $this->smarty;
+    }
+
+    public function setSmartyConf($key , $value){
+        $this->smarty->$key = $value;
     }
 
 }

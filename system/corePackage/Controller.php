@@ -7,6 +7,7 @@
  */
 
 namespace sys\corePackage;
+use sys\corePackage\Http\Http;
 use sys\corePackage\Template\Template;
 
 class Controller
@@ -15,35 +16,36 @@ class Controller
     public $template;
 
 
-    public function init(){}
+//    public function init(){}
 
-    private function _init_(Template $template){
+    private function _init_(Template $template)
+    {
+        $controller = Http::init()->getRequest()->getAccessController();
+        $module = Http::init()->getRequest()->getAccessModule();
 
-        $this->template = $template;
+        $truename = rtrim($controller , 'Controller');
 
-        $className = __NAMESPACE__;
-//        dump(__METHOD__);
-        $classname = strtolower($className);
-        $truename = rtrim($classname , 'controller');
-
-//        dump($truename);
-
-//        $template->setTemplateDir('application/Home/View/'.$truename.'/');
-        $template->setTemplateDir(ROOT.'application/Home/View/Index/');
-
-        $template->setCompileDir(ROOT.'application/Home/Runtime/');
-
+        $template->setTemplateDir(ROOT.'application/'.$module.'/View/'.$truename.'/');
+        $template->setCompileDir(ROOT.'application/Runtime/'.$module.'/');
         $template->setDelimiter('{{','}}');
 
+        $this->template = $template;
     }
 
-    public function __construct(){
+
+
+    public function __construct()
+    {
         $template = Template::init();
         $this->_init_($template);
-        $this->init();
+        if(method_exists($this , 'init')){
+            $this->init();
+        }
+
     }
 
-    public function assign($key , $value){
+    public function assign($key , $value)
+    {
         $this->template->assign($key , $value);
     }
 
@@ -51,7 +53,15 @@ class Controller
 //        $this->template->$method();
 //    }
 
-    public function display($template_name=null){
+    public function display($template_name=null , $debugger = false)
+    {
+        $this->template->setSmartyConf('debugging' , $debugger ? true : false);
+
+        if(!$template_name){
+            $method = Http::init()->getRequest()->getAccessMethod();
+            $template_name = $method.'.html';
+        }
+
         $this->template->display($template_name);
     }
 

@@ -9,6 +9,9 @@ defined( 'EXTENSION_PATH' )?:define('EXTENSION_PATH',ROOT.'system/extension/');
 defined( 'CONF_PATH' )?:define('CONF_PATH',ROOT.'system/config/');
 defined( 'CONF_EXT' )?: define('CONF_EXT','.config.json');
 
+defined('PUBLIC_PATH' )? : define('PUBLIC_PATH' , ROOT.'public/');
+defined( 'ASSET_PATH' ) ?: define('ASSET_PATH' , PUBLIC_PATH.'assets/');
+
 defined('STR_NULL')?:define('STR_NULL','');
 
 defined( 'LOAD_PACKAGE' )?:define('LOAD_PACKAGE' , 1);

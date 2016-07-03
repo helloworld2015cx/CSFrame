@@ -12,9 +12,18 @@ namespace sys\corePackage\Http\Response;
 class Response
 {
 
+    private static $response;
+
     public static function init(){
-        return new self;
+
+        if(!self::$response) {
+            self::$response = new self;
+        }
+
+        return self::$response;
     }
+
+    private function __construct(){}
 
     public function getRequestNameSpace(array $MCM){
 //        dump($MCM);

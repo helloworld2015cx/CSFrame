@@ -7,10 +7,14 @@ use sys\corePackage\Controller;
 class IndexController extends Controller{
 
     public function index(){
-        echo "This is in the IndexController@index !";
-//        return [1,2,3,4,5];
-        $this->assign('test' , 'Hello World !');
-        $this->display('index.tpl');
+//        echo "This is in the IndexController@index !";
+//        $this->assign('test' , 'Hello World !');
+
+        $this->display();
+    }
+
+    public function test(){
+        dump('Hello World !');
     }
 }
 

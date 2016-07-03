@@ -87,6 +87,5 @@
 //dump($pathArr);
 //$result = \sys\corePackage\Http\Http::init()->requestNameSpace();
 //dump($result);
-\sys\corePackage\Http\Http::init()->getAccessControllerObject();
 //dump($_SERVER);
-\sys\corePackage\Template\Template::init()->asset('' ,'');
+//\sys\corePackage\Template\Template::init()->asset('' ,'');

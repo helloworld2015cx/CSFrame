@@ -193,7 +193,15 @@ if(!function_exists('sql_filter')){
 //    }
 //}
 
-
+if(!function_exists('assets')){
+    function assets($path){
+        $request_scheme = $_SERVER['REQUEST_SCHEME'];
+        $script_name = $_SERVER['SCRIPT_NAME'];
+        $server_name = $_SERVER['SERVER_NAME'];
+        $pieces = explode('/',trim($script_name , '/'));
+        return $request_scheme.'://'.$server_name.'/'.$pieces[0].'/assets/'.$path;
+    }
+}
 
 
 
