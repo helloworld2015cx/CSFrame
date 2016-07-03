@@ -11,7 +11,7 @@ const ERROR_TYPES = array(
 class Autoload{
 
     private static $AT;
-    private static $smarty;
+    public static $smarty;
 //    const Smarty = '';
 
 

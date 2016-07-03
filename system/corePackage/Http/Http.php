@@ -53,8 +53,8 @@ class Http
         $Re = $obj->$method();
         $outPut = ob_get_clean();
 //        ob_end_clean();
-        dump($Re);
-        dump($outPut);
+//        dump($Re);
+        echo($outPut);
 
     }
 

@@ -8,6 +8,7 @@ class Template{
     private $smarty;
     private static $template = null;
 
+
     public static function init(){
         if(!self::$template){
             self::$template = new self;
@@ -16,13 +17,24 @@ class Template{
     }
 
 
-    public function asset($key , $value){
-        $this->smarty;
-    }
+
 
     private function __construct(){
-        $this->smarty = \Autoload::init()->getSmarty();
+        $this->smarty = \Autoload::$smarty;
     }
+
+
+    public function assign($key , $value){
+        $this->smarty->assign($key,$value);
+    }
+
+    public function display($template=null){
+//        if(!$template){
+//            $method = __METHOD__;
+//        }
+        $this->smarty->display($template);
+    }
+
 
     public function setDelimiter($left , $right){
         $this->smarty->left_delimiter = $left;
