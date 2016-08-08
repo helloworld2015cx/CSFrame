@@ -48,7 +48,8 @@ class Http
 
     public function getAccessControllerObject(){
         $controller = $this->requestNameSpace();
-//        dump($controller);
+
+        dump($controller);
         $obj = new $controller;
         $method = $this->getRequest()->getAccessMethod();
 //        ob_start();

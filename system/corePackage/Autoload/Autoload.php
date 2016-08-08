@@ -62,11 +62,15 @@ class Autoload{
 
     protected static function autoload($class_name){
 
-//        dump($class_name);
+        dump($class_name);
+        $name_piece = explode('\\', $class_name , 2);
 
-        $name_piece = explode('\\',$class_name , 2);
+        dump($name_piece);
 
         $pre_path = self::_find_root_dir_($name_piece[0]);
+
+        dump(ROOT.' == '.APP_NAME.' == '.APP_PATH);
+        dump($pre_path);
 
         $full_path = $pre_path.str_replace('\\' , '/' , $name_piece[1]);
 
